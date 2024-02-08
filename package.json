@@ -1,0 +1,25 @@
+{
+  "name": "camera_route",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://khmak3@github.com/khmak3/camera_route.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khmak3/camera_route/issues"
+  },
+  "homepage": "https://github.com/khmak3/camera_route#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "fluent-ffmpeg": "^2.1.2",
+    "rtsp-streaming-server": "^2.0.6"
+  }
+}

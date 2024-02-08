@@ -1,0 +1,33 @@
+# Fetching the minified node image on apline linux
+FROM ubuntu:22.04
+
+LABEL maintainer="pegasus.mak@gmail.com"
+LABEL version="0.1"
+LABEL description="This is a rtsp camera router"
+
+# Disable Prompt During Packages Installation
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt update
+
+RUN apt install -y nodejs ffmpeg npm
+
+RUN apt clean
+
+# Declaring env
+ENV NODE_ENV development
+
+# Setting up the work directory
+WORKDIR /express-docker
+
+# Copying all the files in our project
+COPY . .
+
+# Installing dependencies
+RUN npm install
+
+# Starting our application
+CMD [ "node", "index.js" ]
+
+# Exposing server port
+EXPOSE 19612
