@@ -2,12 +2,13 @@
 
 This is a RESTful server utilizing the ExpressJS framework to facilitate accessing video streams from an RTSP camera.
 
-This is a Docker container based solution require host network driver to receive rtsp push from camera
+This is a Docker container-based solution that requires the host network driver to receive RTSP push from the camera.
 ```
 The host networking driver only works on Linux hosts, and is not supported on Docker for Mac, Docker for Windows, or Docker EE for Windows Server.
 So, we need other installation procedure to run locally
 ```
-It provides the following functionality:
+The server provides the following functionality:
+
 ## List all services
 - GET list (default: http://127.0.0.1:19612/list)
 - It will output services JSON list
@@ -32,19 +33,14 @@ It provides the following functionality:
 
 ## Access service detail
 - GET service/:id (default: http://127.0.0.1:19612/service/0)
-- It will output service detail JSON 
+- Outputs detailed service information in JSON format.
 
 ```javascript
 {
     "ServiceID":"<service id>",
     "Status":"<service status - 'Setup','Connecting','Active','NoSignal','End'>","ServiceName":"<service name>",
-    "stream":"<rtsp url to access the video forward by service>"}
-[{
-    "id":"<service id - assign by system>",
-    "name":"<service name>",
-    "status":"<service status - 'Setup','Connecting','Active','NoSignal','End'>",
-    "url":"<Access detail service info include rtsp>:
-}]
+    "stream":"<rtsp url to access the video forward by service>"
+}
 
 //example:
 {"ServiceID":"0","Status":"Active","ServiceName":"Bunny","stream":"rtsp://127.0.0.1:6554/0"}
@@ -52,8 +48,7 @@ It provides the following functionality:
 
 ## Config
 
-- By default, it will use /express-docker/config.json store in the image as config
-- User can pass their config by 
+- By default, the application uses /express-docker/config.json stored in the image as config. Users can pass their configuration by specifying a custom JSON file. By 
 ```docker run --rm -it --network host --privileged -v <path of config.json>:/express-docker/config.json camera_route:latest
 ```
 - service will use it's default config hardcode for any invalid config or config without services
@@ -107,7 +102,7 @@ Linux
 3. Update config.json
 4. Run `docker build -f Dockerfile.dev -t camera_route:latest .` to build container.
 5. Run container `docker run --rm -it --network host --privileged camera_route:latest`
-6. Health check go to browser and access 'http://127.0.0.1:19612' and you will see. 'Use http://127.0.0.1:19612/list to list all available service'
+
 
 Mac and Windows
 1. Make sure you have [Node JS and NPM](https://nodejs.org/en/download/) installed.
@@ -116,14 +111,16 @@ Mac and Windows
 4. Update config.json
 5. Run 'npm install' to install all require Package
 6. Run 'node index.js' under source code folder.
-7. Health check go to browser and access 'http://127.0.0.1:19612' and you will see. 'Use http://127.0.0.1:19612/list to list all available service'
+
+## Health Check
+Go to your browser and access http://127.0.0.1:19612 to confirm the server is running. Use http://127.0.0.1:19612/list to list all available services.
 
 ## To Do
-1. Add API for - Deactive Service, Add/Drop service while running, Use custom Path
-2. Run without privileged mode
-3. Run with docker network host driver
-4. Add Test cases
-5. Add Page to test RESTful API and play video
+1. Add API for Deactivating Service, Adding/Dropping service while running, and using custom paths.
+2. Run without privileged mode.
+3. Run with Docker network host driver.
+4. Add test cases.
+5. Add a page to test RESTful API and play video.
 6. Port to work with https://github.com/bluenviron/mediamtx to support more codec without ffmpeg
 7. Config target codec and bitrate per service. Transcode source video it that's different.
 
