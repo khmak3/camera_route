@@ -9,25 +9,29 @@ So, we need other installation procedure to run locally
 ```
 It provides the following functionality:
 ## List all services
-- list http://<host ip>:<host port>/list (default: http://127.0.0.1:19612/list)
+- "http://<host ip>:<host port>/list" (default: http://127.0.0.1:19612/list)
 - It will output services JSON list
 
 ```javascript 
-[{
-    "id":"<service id - assign by system>",
-    "name":"<service name>",
-    "status":"<service status - 'Setup','Connecting','Active','NoSignal','End'>",
-    "url":"<Access detail service info include rtsp>:
-}]
+[
+    {
+        "id":"<service id - assign by system>",
+        "name":"<service name>",
+        "status":"<service status - 'Setup','Connecting','Active','NoSignal','End'>",
+        "url":"<Access detail service info include rtsp>:
+    }
+]
 
 //example:
-[{"id":0,"name":"Bunny","status":"Active","url":"http://127.0.0.1:19612/service/0"},
-{"id":1,"name":"Color Bar","status":"Active","url":"http://127.0.0.1:19612/service/1"},
-{"id":2,"name":"Invalid","status":"Connecting","url":"http://127.0.0.1:19612/service/2"}]
+[
+    {"id":0,"name":"Bunny","status":"Active","url":"http://127.0.0.1:19612/service/0"},
+    {"id":1,"name":"Color Bar","status":"Active","url":"http://127.0.0.1:19612/service/1"},
+    {"id":2,"name":"Invalid","status":"Connecting","url":"http://127.0.0.1:19612/service/2"}
+]
 ```
 
 ## Access service detail
-- list http://<host ip>:<host port>/service/<service id> (default: http://127.0.0.1:19612/service/0)
+- "http://<host ip>:<host port>/service/<service id>" (default: http://127.0.0.1:19612/service/0)
 - It will output service detail JSON 
 
 ```javascript
@@ -45,12 +49,6 @@ It provides the following functionality:
 //example:
 {"ServiceID":"0","Status":"Active","ServiceName":"Bunny","stream":"rtsp://127.0.0.1:6554/0"}
 ```
-- 
-
-Implement an ExpressJS server capable of handling incoming REST requests to retrieve video feeds from an RTSP camera.
-Consider that the camera supports the RTSP protocol.
-All necessary configurations for the camera (such as URL, username, password, etc.) should be pre-defined within the code.
-
 
 ## Config
 
@@ -100,8 +98,6 @@ All necessary configurations for the camera (such as URL, username, password, et
     }
 
 ```
-
-
 
 ## Getting Started
 
