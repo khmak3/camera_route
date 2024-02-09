@@ -129,6 +129,7 @@ Mac and Windows
 4. Add Test cases
 5. Add Page to test RESTful API and play video
 6. Port to work with https://github.com/bluenviron/mediamtx to support more codec without ffmpeg
+7. Config target codec and bitrate per service. Transcode source video it that's different.
 
 ## Troubleshooting
 

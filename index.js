@@ -76,12 +76,13 @@ async function run () {
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json());
 
+        // get config
         config = getConfig();
-        
-
-        
+    
+        // Enable front page as health checl
         app.get('/',  
         (req, res) => res.send(`Use http://${config.host}:${config.port}/list to list all available service`));
+
 
         app.get('/list',  servicelist);
         
@@ -96,8 +97,10 @@ async function run () {
             rtpPortStart: config.rtpPortStart,
             rtpPortCount: config.rtpPortCount,
         });
+        // start RTSP simple Server
         await server.start();
         console.log('setup service\n');
+        // Add service for routing
         config.services.forEach(function (ser) {
             console.log(`Add Service: ${ser.name}`)
             service.add(ser.name, ser.url)

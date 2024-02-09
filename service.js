@@ -32,6 +32,7 @@ var services = [
 
 ];
 
+// Internal port for ffmpeg publish stream to rtsp server
 const rtspServerPort = 5554
 
 exports.ServiceStatue = ServiceStatue
