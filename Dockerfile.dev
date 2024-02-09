@@ -1,0 +1,31 @@
+
+FROM ubuntu:latest
+
+LABEL maintainer="pegasus.mak@gmail.com"
+LABEL version="0.1"
+LABEL description="This is a rtsp camera router"
+
+# Disable Prompt During Packages Installation
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -yq software-properties-common tzdata
+RUN add-apt-repository ppa:jonathonf/ffmpeg-4
+RUN apt-get install nodejs ffmpeg npm -y
+
+RUN apt-get clean
+
+# Declaring env
+ENV NODE_ENV development
+
+# Setting up the work directory
+WORKDIR /express-docker
+
+# Copying all the files in our project
+COPY . .
+
+# Installing dependencies
+RUN npm install
+
+# Starting our application
+CMD [ "node", "index.js" ]

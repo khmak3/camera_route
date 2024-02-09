@@ -1,0 +1,20 @@
+{
+    "host": "127.0.0.1",
+    "port": 19612,
+    "rtspPort": 6554,
+    "rtpPortStart": 10000,
+    "rtpPortCount": 10000,
+    "services": 
+        [ 
+            {
+                "name": "Bunny",
+                "url": "rtsp://rtspstream:45fb22c77de134324fa9f9e1dd2bbb1e@zephyr.rtsp.stream/movie"
+            },{
+                "name": "Color Bar",
+                "url": "rtsp://rtspstream:bf8f0d443b174ac5576a3eaa456f38c6@zephyr.rtsp.stream/pattern"
+            },{
+                "name": "Invalid",
+                "url": "rtsp://rtspstre111am:bf8f0d443b174ac5576a3eaa456f38c6@zephyr.rtsp.stream/pattern"
+            }
+        ]
+    }
