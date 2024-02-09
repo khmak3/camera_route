@@ -9,7 +9,7 @@ So, we need other installation procedure to run locally
 ```
 It provides the following functionality:
 ## List all services
-- GET list" (default: http://127.0.0.1:19612/list)
+- GET list (default: http://127.0.0.1:19612/list)
 - It will output services JSON list
 
 ```javascript 
