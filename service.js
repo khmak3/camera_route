@@ -4,8 +4,10 @@
 
 
 const ffmpeg = require('fluent-ffmpeg');
+const timers = require('timers-promises')
 
 const ServiceStatue = {
+    Setup: "Setup",
 	Connecting: "Connecting",
 	Active: "Active",
 	NoSignal: "NoSignal",
@@ -21,7 +23,9 @@ var initID = 0
     "name": "Service Name",
     "status": ServiceStatue,
     "url": "rtsp://<username>:<password>@zephyr.rtsp.stream/movie"
-    "ffmpeg" ffmpeg instance
+    "ffmpeg": ffmpeg instance,
+    "active": bool, it will not connect when inactive
+    "timeout" when this = 0, setup again
 }
 */
 var services = [
@@ -51,13 +55,22 @@ exports.add = function(name, url){
     let service = { 
         "id": serviceID,
         "name": name,
-        "status": "Undefined",
-        "url": url
+        "status": ServiceStatue.Setup,
+        "url": url,
+        "active": true,
+        "timeout": 0
     }
-    service.ffmpeg = new ffmpeg()
     services.push(service)
+};
+
+async function setup(id) {
+    let service = services[id]
     // setup ffmpeg routing from any url as rtsp publisher
-    service.ffmpeg.input(`${service.url}`).format("rtsp")
+    console.log(`Setup Service: ${id} with status: ${service.status}`);
+    services[service.id].status = ServiceStatue.Connecting;
+    services[service.id].timeout = -1;
+    service.ffmpeg = new ffmpeg()
+    await service.ffmpeg.input(`${service.url}`).withNoAudio().format("rtsp")
         .output(`rtsp://127.0.0.1:${rtspServerPort}/${service.id}`).videoCodec(`copy`)
         .on('start', function(commandLine) {
             console.log(`Spawned ${service.id} with command: ${commandLine}`);
@@ -66,6 +79,7 @@ exports.add = function(name, url){
         .on('error', function(err, stdout, stderr) {
             console.log('Cannot process video: ' + err.message);
             services[service.id].status = ServiceStatue.NoSignal;
+            services[service.id].timeout = 10;  // restart after 10 second
           })
         .on('progress', function(progress) {
             services[service.id].status = ServiceStatue.Active;
@@ -75,19 +89,40 @@ exports.add = function(name, url){
             console.log('Finished processing');
             services[service.id].status = ServiceStatue.End;
           }).run();
-};
+}
   
 // return service object per id
 exports.get = function(id){
-    let rv
+    let rv;
     services.forEach((service) => {
         if (service.id == id) {
             rv = {
                 "id": service.id,
                 "name": service.name,
                 "status": service.status
-            }
+            };
         }
     })
     return rv;
 };
+
+async function monitioring() {
+    while(true) {
+        services.forEach(async (service) => {
+            if (service.active) {
+                let status = service.status
+                if (status == ServiceStatue.Setup || status == ServiceStatue.NoSignal) {
+                    if (service.timeout === 0) {
+                        await setup(service.id);
+                    }
+                    if (service.timeout > 0) {
+                        services[service.id].timeout--
+                    }   
+                }
+            }
+        })
+        await timers.setTimeout(1000)
+    }
+};
+
+monitioring();
