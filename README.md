@@ -49,7 +49,8 @@ The server provides the following functionality:
 ## Config
 
 - By default, the application uses /express-docker/config.json stored in the image as config. Users can pass their configuration by specifying a custom JSON file. By 
-```docker run --rm -it --network host --privileged -v <path of config.json>:/express-docker/config.json camera_route:latest
+```
+docker run --rm -it --network host --privileged -v <path of config.json>:/express-docker/config.json camera_route:latest
 ```
 - service will use it's default config hardcode for any invalid config or config without services
 - Json for config 
