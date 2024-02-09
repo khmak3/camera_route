@@ -9,7 +9,7 @@ So, we need other installation procedure to run locally
 ```
 It provides the following functionality:
 ## List all services
-- "http://<host ip>:<host port>/list" (default: http://127.0.0.1:19612/list)
+- GET list" (default: http://127.0.0.1:19612/list)
 - It will output services JSON list
 
 ```javascript 
@@ -31,7 +31,7 @@ It provides the following functionality:
 ```
 
 ## Access service detail
-- "http://<host ip>:<host port>/service/<service id>" (default: http://127.0.0.1:19612/service/0)
+- GET service/:id (default: http://127.0.0.1:19612/service/0)
 - It will output service detail JSON 
 
 ```javascript
